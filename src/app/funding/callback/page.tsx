@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 
-export default function FundingCallback() {
+function FundingCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [verifying, setVerifying] = useState(true);
@@ -26,7 +26,6 @@ export default function FundingCallback() {
       setTimeout(() => router.push('/dashboard/user'), 2000);
     } else {
       setMessage('Payment status unclear, checking...');
-      // Still try to verify if we have tx_ref
       if (txRef) {
         verifyPayment(txRef);
       } else {
@@ -43,7 +42,6 @@ export default function FundingCallback() {
       
       console.log('Verifying payment with tx_ref:', txRef);
       
-      // Call verify endpoint
       const response = await api.get(`/payments/verify?tx_ref=${txRef}`);
       
       console.log('Verification response:', response.data);
@@ -52,7 +50,6 @@ export default function FundingCallback() {
         setMessage('Payment confirmed! Updating wallet...');
         toast.success('Payment successful! Wallet funded!');
         
-        // Wait 2 seconds so user can see the success message
         setTimeout(() => {
           router.push('/dashboard/user');
         }, 2000);
@@ -67,7 +64,6 @@ export default function FundingCallback() {
       
       setMessage('Error verifying payment');
       
-      // Check if it's an auth error
       if (error.response?.status === 401) {
         toast.error('Session expired. Please login again.');
         setTimeout(() => router.push('/login'), 2000);
@@ -85,18 +81,33 @@ export default function FundingCallback() {
       <div className="text-center bg-white p-8 rounded-lg shadow-lg max-w-md">
         {verifying ? (
           <>
-            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary-600 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mx-auto mb-4"></div>
             <p className="text-gray-800 text-lg font-semibold mb-2">{message}</p>
             <p className="text-gray-500 text-sm">Please wait, do not refresh...</p>
           </>
         ) : (
           <>
-            <div className="text-primary-600 text-6xl mb-4">✓</div>
+            <div className="text-purple-600 text-6xl mb-4">✓</div>
             <p className="text-gray-800 text-lg font-semibold mb-2">{message}</p>
             <p className="text-gray-600">Redirecting to dashboard...</p>
           </>
         )}
       </div>
     </div>
+  );
+}
+
+export default function FundingCallback() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center bg-white p-8 rounded-lg shadow-lg">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <FundingCallbackContent />
+    </Suspense>
   );
 }
