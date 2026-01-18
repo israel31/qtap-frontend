@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
 import toast from 'react-hot-toast';
 
-export default function Register() {
+function RegisterContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -71,7 +71,7 @@ export default function Register() {
             onClick={() => setType('user')}
             className={`flex-1 py-2 rounded ${
               type === 'user'
-                ? 'bg-primary-600 text-white'
+                ? 'bg-purple-600 text-white'
                 : 'bg-gray-200 text-gray-700'
             }`}
           >
@@ -81,7 +81,7 @@ export default function Register() {
             onClick={() => setType('driver')}
             className={`flex-1 py-2 rounded ${
               type === 'driver'
-                ? 'bg-primary-600 text-white'
+                ? 'bg-purple-600 text-white'
                 : 'bg-gray-200 text-gray-700'
             }`}
           >
@@ -97,7 +97,7 @@ export default function Register() {
             onChange={(e) =>
               setFormData({ ...formData, fullName: e.target.value })
             }
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
             required
           />
 
@@ -108,7 +108,7 @@ export default function Register() {
             onChange={(e) =>
               setFormData({ ...formData, phone: e.target.value })
             }
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
             required
           />
 
@@ -119,7 +119,7 @@ export default function Register() {
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
 
           <input
@@ -129,7 +129,7 @@ export default function Register() {
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
             required
           />
 
@@ -142,7 +142,7 @@ export default function Register() {
                 onChange={(e) =>
                   setFormData({ ...formData, vehicleType: e.target.value })
                 }
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
                 required
               />
 
@@ -153,7 +153,7 @@ export default function Register() {
                 onChange={(e) =>
                   setFormData({ ...formData, plateNumber: e.target.value })
                 }
-                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
                 required
               />
             </>
@@ -161,7 +161,7 @@ export default function Register() {
 
           <button
             type="submit"
-            className="w-full bg-primary-600 text-white py-3 rounded font-semibold hover:bg-primary-700 transition"
+            className="w-full bg-purple-600 text-white py-3 rounded font-semibold hover:bg-purple-700 transition"
           >
             Register
           </button>
@@ -169,11 +169,26 @@ export default function Register() {
 
         <p className="text-center mt-6 text-gray-600">
           Already have an account?{' '}
-          <a href="/login" className="text-primary-600 hover:underline">
+          <a href="/login" className="text-purple-600 hover:underline">
             Login
           </a>
         </p>
       </div>
     </div>
+  );
+}
+
+export default function Register() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <RegisterContent />
+    </Suspense>
   );
 }
