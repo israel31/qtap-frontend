@@ -34,7 +34,7 @@ export default function QRScanner({ onScan, onClose }: QRScannerProps) {
       }
 
       // Use the first camera (usually back camera on mobile)
-      const selectedDeviceId = videoInputDevices[0].deviceId;
+      const selectedDeviceId = videoInputDevices[1].deviceId;
 
       codeReader.decodeFromVideoDevice(
         selectedDeviceId,
