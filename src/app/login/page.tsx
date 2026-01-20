@@ -48,7 +48,7 @@ export default function Login() {
             onClick={() => setType('user')}
             className={`flex-1 py-2 rounded text-sm ${
               type === 'user'
-                ? 'bg-primary-600 text-white'
+                ? 'bg-purple-600 text-white'
                 : 'bg-gray-200 text-gray-700'
             }`}
           >
@@ -58,7 +58,7 @@ export default function Login() {
             onClick={() => setType('driver')}
             className={`flex-1 py-2 rounded text-sm ${
               type === 'driver'
-                ? 'bg-primary-600 text-white'
+                ? 'bg-purple-600 text-white'
                 : 'bg-gray-200 text-gray-700'
             }`}
           >
@@ -68,7 +68,7 @@ export default function Login() {
             onClick={() => setType('admin')}
             className={`flex-1 py-2 rounded text-sm ${
               type === 'admin'
-                ? 'bg-primary-600 text-white'
+                ? 'bg-purple-600 text-white'
                 : 'bg-gray-200 text-gray-700'
             }`}
           >
@@ -114,7 +114,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full bg-primary-600 text-white py-3 rounded font-semibold hover:bg-primary-700 transition"
+            className="w-full bg-purple-600 text-white py-3 rounded font-semibold hover:bg-primary-700 transition"
           >
             Login
           </button>

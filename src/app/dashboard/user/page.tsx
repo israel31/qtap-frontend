@@ -204,7 +204,7 @@ export default function UserDashboard() {
               <button
                 onClick={handlePayDriver}
                 disabled={paymentProcessing}
-                className={`flex-1 bg-primary-600 text-white px-6 py-3 rounded font-semibold hover:bg-primary-700 ${
+                className={`flex-1 bg-purple-600 text-white px-6 py-3 rounded font-semibold hover:bg-primary-700 ${
                   paymentProcessing ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
@@ -295,7 +295,7 @@ export default function UserDashboard() {
           <div className="flex gap-4">
             <button
               onClick={handleFundWallet}
-              className="flex-1 bg-primary-600 text-white py-2 rounded font-semibold hover:bg-primary-700"
+              className="flex-1 bg-purple-600 text-white py-2 rounded font-semibold hover:bg-primary-700"
             >
               Proceed to Payment
             </button>
